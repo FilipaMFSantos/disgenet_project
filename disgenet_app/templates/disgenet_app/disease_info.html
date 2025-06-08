@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta de Doença</title>
+</head>
+<body>
+    <h1>Consulta de Atributos da Doença</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label>Nome da doença:</label>
+        <input type="text" name="diseaseName" required>
+        <button type="submit">Pesquisar</button>
+    </form>
+
+    {% if disease %}
+        <h2>Resultados:</h2>
+        <ul>
+            <li><strong>ID:</strong> {{ disease.diseaseId }}</li>
+            <li><strong>Nome:</strong> {{ disease.diseaseName }}</li>
+            <li><strong>Tipo:</strong> {{ disease.type }}</li>
+            <li><strong>Classe:</strong> {{ class_name|default:"-" }}</li>
+        </ul>
+    {% elif request.method == "POST" %}
+        <p>⚠ Nenhuma doença encontrada com esse nome.</p>
+    {% endif %}
+</body>
+</html>

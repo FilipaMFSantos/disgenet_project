@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Pesquisa de Genes</title>
+</head>
+<body>
+    <h1>Pesquisa de Genes</h1>
+    <form method="get">
+        <input type="text" name="q" placeholder="Pesquisar gene pelo nome..." value="{{ current_query }}">
+        <select name="pli_filter">
+            <option value="">Todos os pLI</option>
+            <option value=">0.9" {% if current_pli == '>0.9' %}selected{% endif %}>pLI > 0.9</option>
+            <option value=">0.5" {% if current_pli == '>0.5' %}selected{% endif %}>pLI > 0.5</option>
+            <option value="0" {% if current_pli == '0' %}selected{% endif %}>Sem valor</option>
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
+    <table border="1">
+        <tr>
+            <th>Gene ID</th><th>Nome</th><th>Descrição</th><th>pLI</th><th>DSI</th><th>DPI</th>
+        </tr>
+        {% for gene in genes %}
+        <tr>
+            <td>{{ gene.geneId }}</td>
+            <td>{{ gene.geneName }}</td>
+            <td>{{ gene.geneDescription|default:'-' }}</td>
+            <td>{{ gene.pLI|default:'-' }}</td>
+            <td>{{ gene.DSI|default:'-' }}</td>
+            <td>{{ gene.DPI|default:'-' }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6">Nenhum gene encontrado.</td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
